@@ -1,34 +1,92 @@
-import React, { useState } from 'react';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
-import { IoSearch } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Form, FormControl, FormField, FormItem } from "./ui/form";
+import { Search } from "lucide-react";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { useEffect } from "react";
 
-const SearchBar: React.FC = () => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const navigate = useNavigate();
+const formSchema = z.object({
+  searchQuery: z.string({
+    required_error: "Restaurant name is required",
+  }),
+});
 
-    const handleSearch = () => {
-        if (searchTerm.trim() === '') return;
-        navigate(`/search-results?query=${encodeURIComponent(searchTerm)}`);
-        setSearchTerm('');
-    };
+export type SearchForm = z.infer<typeof formSchema>;
 
-    return (
-        <div className="flex items-center">
-            <Input
-                type="text"
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="border w-96 rounded-none rounded-l-md"
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            />
-            <Button className='rounded-none rounded-r-md' onClick={handleSearch}>
-                <IoSearch />
-            </Button>
-        </div>
-    );
+type Props = {
+  onSubmit: (formData: SearchForm) => void;
+  placeHolder: string;
+  onReset?: () => void;
+  searchQuery?: string;
+};
+
+const SearchBar = ({ onSubmit, onReset, placeHolder, searchQuery }: Props) => {
+  const form = useForm<SearchForm>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      searchQuery,
+    },
+  });
+
+  useEffect(() => {
+    form.reset({ searchQuery });
+  }, [form, searchQuery]);
+
+  const handleReset = () => {
+    form.reset({
+      searchQuery: "",
+    });
+
+    if (onReset) {
+      onReset();
+    }
+  };
+
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={`flex items-center gap-3 justify-between flex-row border-2 rounded-full p-3 ${
+          form.formState.errors.searchQuery && "border-red-500"
+        }`}
+      >
+        <Search
+          strokeWidth={2.5}
+          size={30}
+          className="ml-1 text-orange-500 hidden md:block"
+        />
+        <FormField
+          control={form.control}
+          name="searchQuery"
+          render={({ field }) => (
+            <FormItem className="flex-1">
+              <FormControl>
+                <Input
+                  {...field}
+                  className="border-none shadow-none text-xl focus-visible:ring-0"
+                  placeholder={placeHolder}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <Button
+          onClick={handleReset}
+          type="button"
+          variant="outline"
+          className="rounded-full"
+        >
+          Reset
+        </Button>
+        <Button type="submit" className="rounded-full bg-orange-500">
+          Search
+        </Button>
+      </form>
+    </Form>
+  );
 };
 
 export default SearchBar;
