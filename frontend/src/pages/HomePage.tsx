@@ -28,11 +28,10 @@ const HomePage = () => {
         <img src={landingImage} />
         <div className="flex flex-col items-center justify-center gap-4 text-center">
           <span className="font-bold text-3xl tracking-tighter">
-            Order takeaway even faster!
+            Think it, click it, eat it!
           </span>
           <span>
-            Download the FeastFerry App for faster ordering and personalised
-            recommendations
+            We are the CTRL+Z for your cooking disasters :)
           </span>
           <img src={appDownloadImage} />
         </div>
