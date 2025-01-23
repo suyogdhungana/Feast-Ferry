@@ -8,6 +8,8 @@ type Props = {
 };
 
 const SearchResultCard = ({ restaurant }: Props) => {
+  const cuisines = Array.isArray(restaurant.cuisines) ? restaurant.cuisines : [];
+
   return (
     <Link
       to={`/detail/${restaurant._id}`}
@@ -25,10 +27,10 @@ const SearchResultCard = ({ restaurant }: Props) => {
         </h3>
         <div id="card-content" className="grid md:grid-cols-2 gap-2">
           <div className="flex flex-row flex-wrap">
-            {restaurant.cuisines.map((item, index) => (
-              <span className="flex">
+            {cuisines.map((item: string, index: number) => (
+              <span key={index} className="flex">
                 <span>{item}</span>
-                {index < restaurant.cuisines.length - 1 && <Dot />}
+                {index < cuisines.length - 1 && <Dot />}
               </span>
             ))}
           </div>

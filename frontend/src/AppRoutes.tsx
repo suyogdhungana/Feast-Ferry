@@ -8,6 +8,7 @@ import ManageRestaurantPage from "./pages/ManageRestaurantPage";
 import SearchPage from "./pages/SearchPage";
 import DetailPage from "./pages/DetailPage";
 import OrderStatusPage from "./pages/OrderStatusPage";
+import RecommendationsPage from "./pages/RecommendationPage";
 
 const AppRoutes = () => {
   return (
@@ -63,7 +64,14 @@ const AppRoutes = () => {
           }
         />
       </Route>
-
+      <Route
+        path="/recommendations/:city/:userId"
+        element={
+          <Layout showHero={false}>
+            <RecommendationsPage />
+          </Layout>
+        }
+      />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
