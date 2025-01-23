@@ -16,9 +16,10 @@ const HomePage = () => {
     <div className="flex flex-col gap-12">
       <div className="md:px-32 bg-white rounded-lg shadow-md py-8 flex flex-col gap-5 text-center -mt-16">
         <h1 className="text-5xl font-bold tracking-tight text-orange-600">
-          Enjoy a takeaway today
+          Think it, click it, eat it!
         </h1>
-        <span className="text-xl">Delicious food is just a click away!</span>
+        <span className="text-xl">We are the CTRL+Z for your cooking disasters :)
+        </span>
         <SearchBar
           placeHolder="Search by City or Town"
           onSubmit={handleSearchSubmit}
@@ -28,10 +29,10 @@ const HomePage = () => {
         <img src={landingImage} />
         <div className="flex flex-col items-center justify-center gap-4 text-center">
           <span className="font-bold text-3xl tracking-tighter">
-            Think it, click it, eat it!
+            Get the Feast Ferry mobile app now!
           </span>
           <span>
-            We are the CTRL+Z for your cooking disasters :)
+            Available on both Android and iOS devices.
           </span>
           <img src={appDownloadImage} />
         </div>
